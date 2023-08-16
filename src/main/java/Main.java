@@ -9,11 +9,11 @@ public class Main {
         double generationSyntacticVelocity = new Random().nextDouble() * 1000;
 
         Point generationSyntacticData = new Point(
-                generationSyntacticVelocity,
+                1.5,
                 0,
-                new Random().nextDouble() * 100,
-                new Random().nextDouble() * 100,
-                new Random().nextDouble() * 100,
+                500_000,
+                90,
+                1000,
                 false
         );
 
@@ -22,16 +22,16 @@ public class Main {
             listPoints.add(generationSyntacticData);
         }
         Pipe pipe = new Pipe(
+                500000,
                 50,
-                5,
-                100,
+                1000,
                 5
         );
 
         pipe.calculatePoints(listPoints);
         List<String> matrixHeaders = List.of("Velocity", "Flow", "Pressure", "Temperature", "Density");
         List<String> matrixData = new ArrayList<>();
-        //pipe.Destiny_with_Burst(3);
+        pipe.Destiny_with_Burst(10_000);
 
         for (String header : matrixHeaders) {
             StringBuilder data = new StringBuilder();

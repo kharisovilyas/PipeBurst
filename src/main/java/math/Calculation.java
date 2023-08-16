@@ -11,7 +11,7 @@ public class Calculation {
     public final double CONST_6 = 0.6;
 
     public double calcFlow(double velocity, double density) {
-        return velocity * density;
+        return velocity * density * 0.001;
     }
 
     public double calcTemp(double startTemp, double deltaLength, double diameter, double velocity) {
@@ -27,9 +27,7 @@ public class Calculation {
     public double calcVelocity(double velocityStartPoint, double diameter, double y, double deltaDiameter) {
         double semiDiam = diameter / 2;
         double centring = semiDiam >= y ? semiDiam - y : y - semiDiam;
-        double velocity = velocityStartPoint * (1 - CONST_6 * Math.pow(Math.abs(centring), 2) / Math.pow(diameter, 2)) + generateRandomComponent(velocityStartPoint);
-        System.out.println(velocity + " " + centring);
-        return velocity;
+        return velocityStartPoint * (1 - CONST_6 * Math.pow(Math.abs(centring), 2) / Math.pow(diameter, 2)) + generateRandomComponent(velocityStartPoint);
     }
 
     public double calcPressure(double startPressure, double startVelocity, double diameter, double deltaLength) {
