@@ -1,0 +1,99 @@
+package model;
+
+import math.Calculation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Pipe {
+    private final double length;
+    private final double diameter;
+    private final int horizontalQuantity;
+    private final int verticalQuantity;
+    private final double deltaDiameter;
+    private final double deltaLength;
+
+    private List<List<Point>> points;
+
+    public Pipe(double length, double diameter, int horizontalQuantity, int verticalQuantity) {
+        this.length = length;
+        this.diameter = diameter;
+        this.horizontalQuantity = horizontalQuantity;
+        this.verticalQuantity = verticalQuantity;
+        this.deltaDiameter = diameter / (verticalQuantity - 1);
+        this.deltaLength = length / (horizontalQuantity - 1);
+        initializePoints();
+    }
+
+    public List<List<Point>> getPoints() {
+        return points;
+    }
+
+    private void initializePoints() {
+        points = new ArrayList<>();
+        Point startPoint = new Point(0, 0, 0, 0, 0, false);
+        for (int i = 0; i < horizontalQuantity; i++) {
+            List<Point> row = new ArrayList<>();
+            for (int j = 0; j < verticalQuantity; j++) {
+                if (i > 0 && j > 0) {
+                    row.add(startPoint);
+                } else {
+                    row.add(new Point(0, 0, 0, 0, 0, false));
+                }
+            }
+            points.add(row);
+        }
+    }
+
+    public void calculatePoints(List<Point> startVerticalPoints) {
+
+        Point verticalMainPoint = startVerticalPoints.get(verticalQuantity / 2);
+        //points = addVerticalColumn(points, startVerticalPoints);
+        for (int j = 0; j < verticalQuantity; j++) {
+            points.set(j, startVerticalPoints);
+        }
+        Calculation calc = new Calculation();
+        for (int i = 0; i < horizontalQuantity; i++) {
+            for (int j = 1; j < verticalQuantity; j++) {
+                double x = j * deltaLength;
+                double y = i * deltaDiameter;
+                Point prevPoint = points.get(i).get(j - 1);
+                double velocity = calc.calcVelocity(verticalMainPoint.velocity, diameter, y, deltaDiameter);
+                double pressure = calc.calcPressure(prevPoint.pressure, prevPoint.velocity, diameter, deltaLength);
+                double temp = calc.calcTemp(prevPoint.temperature, deltaLength, diameter, velocity);
+                double flow = calc.calcFlow(prevPoint.velocity, prevPoint.density);
+                Point updatedPoint = new Point(velocity, temp, pressure, flow, startVerticalPoints.get(0).density, calc.isBorderPoint(i, startVerticalPoints.size()));
+                points.get(i).set(j, updatedPoint);
+            }
+        }
+
+    }
+    public void Destiny_with_Burst (double length_b) {
+
+        for (int i = 0; i < horizontalQuantity; i++) {
+            for (int j = 1; j < verticalQuantity; j++) {
+                double x = j * deltaLength;
+                double y = i * deltaDiameter;
+                //double density0 = points.get(0).get(0).density; правильная строчка
+                double density0 = 10;
+                double density1 = density0*0.6;
+                double density_step = 0;
+                if ((x < -0.5 * Math.pow(y-diameter,2) + length_b)) {
+                    //установить поинту начальную плотность
+                    points.get(i).get(j).density = density0;
+                }else {
+                        if (points.get(i).get(j-1).density == density0){
+                            double point_c = length_b/deltaLength-j;
+                            density_step = (density0-density1)/point_c;
+                        }
+                        points.get(i).get(j).density = points.get(i).get(j-1).density - density_step;
+                    }
+
+
+
+            }
+
+        }
+    }
+
+}
