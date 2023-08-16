@@ -13,7 +13,7 @@ public class Main {
                 0,
                 new Random().nextDouble() * 100,
                 new Random().nextDouble() * 100,
-                0,
+                new Random().nextDouble() * 100,
                 false
         );
 
@@ -22,24 +22,16 @@ public class Main {
             listPoints.add(generationSyntacticData);
         }
         Pipe pipe = new Pipe(
+                50,
                 5,
-                5,
-                5,
+                100,
                 5
         );
-        pipe.calculatePoints(listPoints);
 
+        pipe.calculatePoints(listPoints);
         List<String> matrixHeaders = List.of("Velocity", "Flow", "Pressure", "Temperature", "Density");
         List<String> matrixData = new ArrayList<>();
         //pipe.Destiny_with_Burst(3);
-
-
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.println(pipe.getPoints().get(i).get(j).velocity + "\t");
-            }
-            System.out.println();
-        }
 
         for (String header : matrixHeaders) {
             StringBuilder data = new StringBuilder();

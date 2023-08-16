@@ -27,8 +27,9 @@ public class Calculation {
     public double calcVelocity(double velocityStartPoint, double diameter, double y, double deltaDiameter) {
         double semiDiam = diameter / 2;
         double centring = semiDiam >= y ? semiDiam - y : y - semiDiam;
-        System.out.println(y + " " + centring);
-        return velocityStartPoint * (1 - CONST_6 * Math.pow(Math.abs(centring), 2) / Math.pow(diameter, 2)) + generateRandomComponent(velocityStartPoint);
+        double velocity = velocityStartPoint * (1 - CONST_6 * Math.pow(Math.abs(centring), 2) / Math.pow(diameter, 2)) + generateRandomComponent(velocityStartPoint);
+        System.out.println(velocity + " " + centring);
+        return velocity;
     }
 
     public double calcPressure(double startPressure, double startVelocity, double diameter, double deltaLength) {

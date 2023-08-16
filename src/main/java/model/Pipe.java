@@ -32,9 +32,9 @@ public class Pipe {
     private void initializePoints() {
         points = new ArrayList<>();
         Point startPoint = new Point(0, 0, 0, 0, 0, false);
-        for (int i = 0; i < horizontalQuantity; i++) {
+        for (int i = 0; i < verticalQuantity; i++) {
             List<Point> row = new ArrayList<>();
-            for (int j = 0; j < verticalQuantity; j++) {
+            for (int j = 0; j < horizontalQuantity; j++) {
                 if (i > 0 && j > 0) {
                     row.add(startPoint);
                 } else {
@@ -44,17 +44,13 @@ public class Pipe {
             points.add(row);
         }
     }
-
     public void calculatePoints(List<Point> startVerticalPoints) {
-
         Point verticalMainPoint = startVerticalPoints.get(verticalQuantity / 2);
-        //points = addVerticalColumn(points, startVerticalPoints);
-        for (int j = 0; j < verticalQuantity; j++) {
-            points.set(j, startVerticalPoints);
-        }
         Calculation calc = new Calculation();
-        for (int i = 0; i < horizontalQuantity; i++) {
-            for (int j = 1; j < verticalQuantity; j++) {
+        System.out.println(points.size());
+        for (int i = 0; i < verticalQuantity; i++) {
+            points.get(i).set(0, startVerticalPoints.get(i));
+            for (int j = 1; j < horizontalQuantity; j++) {
                 double x = j * deltaLength;
                 double y = i * deltaDiameter;
                 Point prevPoint = points.get(i).get(j - 1);
@@ -66,8 +62,18 @@ public class Pipe {
                 points.get(i).set(j, updatedPoint);
             }
         }
-
     }
+
+    public void outMatrix() {
+        for (int i = 0; i < verticalQuantity; i++) {
+            for (int j = 0; j < horizontalQuantity; j++) {
+                System.out.print(points.get(i).get(j).velocity + " ");
+            }
+            System.out.println(); // Переход на новую строку для следующей строки матрицы
+        }
+    }
+}
+/*
     public void Destiny_with_Burst (double length_b) {
 
         for (int i = 0; i < horizontalQuantity; i++) {
@@ -96,4 +102,6 @@ public class Pipe {
         }
     }
 
-}
+
+
+ */
